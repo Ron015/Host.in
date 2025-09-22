@@ -2,8 +2,11 @@ name: Android Build & Release
 
 on:
   push:
+    branches:
+      - '**'
     tags:
       - 'v*'   # Example: v1.0, v1.1.0 etc.
+  workflow_dispatch:
 
 jobs:
   build:
