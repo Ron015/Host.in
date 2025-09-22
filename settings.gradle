@@ -1,0 +1,3 @@
+// settings.gradle
+rootProject.name = "Host.in"  // optional, repo ka name
+include ':app'
