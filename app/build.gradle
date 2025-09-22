@@ -3,6 +3,7 @@ plugins {
 }
 
 android {
+    namespace 'ron.jnv.internet'
     compileSdk 34
 
     defaultConfig {
