@@ -2,18 +2,15 @@ name: Android Build & Release
 
 on:
   push:
-    tags:
-      - 'v*'   # Example: v1.0, v1.1.0 etc.
     branches:
-      - '**'
+      - '**'  # all branches
   workflow_dispatch:
 
 permissions:
-  contents: write   # ✅ Required for creating GitHub Releases1
+  contents: write   # Required for GitHub Release
 
 jobs:
   build:
-    name: Build Debug APK
     runs-on: ubuntu-latest
 
     steps:
@@ -42,9 +39,14 @@ jobs:
       - name: Build Debug APK
         run: ./gradlew :app:assembleDebug
 
-      - name: Upload Debug APK to GitHub Release
+      - name: Upload Release APK to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: app/build/outputs/apk/debug/app-debug.apk
+          tag_name: v1.0.0          # ✅ Predefined tag
+          name: "Release v1.0.0"
+          body: |
+            🔥 Automatic Releas
+          files: |
+            app/build/outputs/apk/debug/app-debug.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
