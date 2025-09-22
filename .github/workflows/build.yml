@@ -4,6 +4,12 @@ on:
   push:
     tags:
       - 'v*'   # Example: v1.0, v1.1.0 etc.
+    branches:
+      - '**'
+  workflow_dispatch:
+
+permissions:
+  contents: write   # ✅ Required for creating GitHub Releases1
 
 jobs:
   build:
