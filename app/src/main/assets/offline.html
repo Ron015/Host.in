@@ -1,28 +1,113 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Offline Mode</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            overflow: hidden;
+            background: #0e0f1a;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
             text-align: center;
-            font-family: sans-serif;
-            padding: 20px;
         }
+
+        /* Animated gradient "study type" background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, #ff6f91, #845ec2, #00c9a7, #ffc75f, #0081cf);
+            background-size: 600% 600%;
+            animation: gradientMove 20s ease infinite;
+            z-index: -1;
+            filter: blur(70px);
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Subtle grid lines for study/learning vibe */
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0 1px, transparent 1px 20px),
+                              repeating-linear-gradient(90deg, rgba(255,255,255,0.02) 0 1px, transparent 1px 20px);
+            z-index: -1;
+        }
+
         h1 {
+            font-size: 3rem;
             margin-bottom: 15px;
+            animation: fadeInDown 1s ease;
+            color: #ffdd59;
+            text-shadow: 0 0 10px #ffdd59, 0 0 20px #ff6f91;
         }
+
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease;
+            max-width: 450px;
+            line-height: 1.5;
+            color: #d0d0d0;
+        }
+
         button {
-            padding: 10px 20px;
-            background-color: #4CAF50; /* Green */
-            color: white;
+            padding: 12px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #0e0f1a;
+            background: #ffdd59;
             border: none;
-            border-radius: 5px;
+            border-radius: 50px;
             cursor: pointer;
+            box-shadow: 0px 5px 20px rgba(255,221,89,0.5);
+            transition: all 0.3s ease;
+            animation: fadeIn 1.5s ease;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0px 5px 30px rgba(255,221,89,0.8);
+        }
+
+        @keyframes fadeInDown {
+            0% { opacity: 0; transform: translateY(-50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
         }
     </style>
 </head>
 <body>
-    <h1>You're Offline</h1>
-    <p>It seems like this device not connected to WiFi Contact To Mr. Satendra Sir.</p>
+    <h1>You're Offline 😕</h1>
+    <p>Your device is not connected to WiFi. If it looks like a bug, then contact Satendra Sir.</p>
+    <button onclick="location.reload()">Try Again 🔄</button>
 </body>
 </html>
