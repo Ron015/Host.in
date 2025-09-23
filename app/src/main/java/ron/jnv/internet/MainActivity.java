@@ -12,11 +12,13 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class MainActivity extends Activity {
     private WebView mWebView;
     private NetworkCallback networkCallback;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -24,15 +26,22 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        swipeRefreshLayout = findViewById(R.id.swipeRefresh);
         mWebView = findViewById(R.id.activity_main_webview);
+
         WebSettings webSettings = mWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
         // Custom WebViewClient to block other domains
-        mWebView.setWebViewClient(new HostOnlyWebViewClient());
+        mWebView.setWebViewClient(new HostOnlyWebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                swipeRefreshLayout.setRefreshing(false); // stop refresh spinner
+            }
+        });
 
-        // Disable downloads (no DownloadListener at all)
-        // mWebView.setDownloadListener(...)  ❌ REMOVE this part
+        // Pull to refresh
+        swipeRefreshLayout.setOnRefreshListener(() -> mWebView.reload());
 
         if (isNetworkAvailable()) {
             mWebView.loadUrl("https://host.in");
@@ -72,11 +81,7 @@ public class MainActivity extends Activity {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             String url = request.getUrl().toString();
-            if (url.contains("host.in")) {
-                return false; // allow loading
-            } else {
-                return true; // block other domains
-            }
+            return !url.contains("host.in"); // allow only host.in
         }
     }
 
