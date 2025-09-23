@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
         swipeRefreshLayout.setOnRefreshListener(() -> mWebView.reload());
 
         if (isNetworkAvailable()) {
-            mWebView.loadUrl("https://host.in");
+            mWebView.loadUrl("http://host.in");
         } else {
             mWebView.loadUrl("file:///android_asset/offline.html");
         }
@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
         networkCallback = new NetworkCallback() {
             @Override
             public void onAvailable(Network network) {
-                runOnUiThread(() -> mWebView.loadUrl("https://host.in"));
+                runOnUiThread(() -> mWebView.loadUrl("http://host.in"));
             }
             @Override
             public void onLost(Network network) {
